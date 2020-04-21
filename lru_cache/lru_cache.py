@@ -1,4 +1,4 @@
-from doubly_linked_list import DoublyLinkedList, ListNode
+from doubly_linked_list import DoublyLinkedList
 
 
 class LRUCache:
@@ -13,7 +13,7 @@ class LRUCache:
     def __init__(self, limit=10):
         self.limit = limit
         self.size = 0
-        self.storage_dict = {}
+        self.cache = {}
         self.dll = DoublyLinkedList()
 
 
@@ -27,8 +27,20 @@ key-value pair doesn't exist in the cache.
 
 
 def get(self, key):
-    pass
+    if key in self.cache:
+        self.dll(key)
+        return self.cache[key]
+    if len(self.cache) is self.cache.limit:
+        node = self.cache[key]
+        self.dll.move_to_end(node)
+        del self.cache[node.key]
 
+
+'''
+Get key
+Move current node to end
+Return the value of the node
+'''
 
 """
 Adds the given key-value pair to the cache. The newly-
@@ -40,6 +52,10 @@ case that the key already exists in the cache, we simply
 want to overwrite the old value associated with the key with
 the newly-specified value.
 """
+
+'''
+
+'''
 
 
 def set(self, key, value):
