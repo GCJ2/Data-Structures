@@ -11,35 +11,39 @@ class LRUCache:
 	"""
 
 	def __init__(self, limit=10):
-		self.limit = limit
-		self.size = 0
-		self.cache = {}
-		self.dll = DoublyLinkedList()
+		self.limit = limit                  # Limit to how big cache can be
+		self.size = 0                       # Initial size of cache
+		self.cache = {}                     # Creates dict for cache
+		self.dll = DoublyLinkedList()       # Allow use of DLL methods
 
-	def get(self, key):
-		if key in self.cache:
-			node = self.cache[key]
-			# print(node)
-			print(node.value)
-			print(node.value[0])
-			print(node.value[1])
-			self.dll.move_to_front(node)
-			return node.value[1]
+	def get(self, key):                     # Takes in key as arg to look for node
+		if key in self.cache:               # If the key is currently in the cache
+			node = self.cache[key]          # Instant a node for the node in the cache
+			# print(node)                   # Prints node in memory; Readable if Dan Levy
+			# print(node.value)              # Print value of node ('item1', 'a')
+			# print(node.value[0])
+			# print(node.value[1])
+			self.dll.move_to_front(node)    # Move node to front via dll method
+			return node.value[1]            # Return the [1] value of the node (See line 23)
 
-	def set(self, key, value):
-		if key in self.cache:
-			node = self.cache[key]
-			node.value = (key, value)
-			print(node.value)
-			self.dll.move_to_front(node)
-			return
-		if self.size == self.limit:
-			del self.cache[self.dll.tail.value[0]]
-			self.dll.remove_from_tail()
-			self.size -= 1
-		self.dll.add_to_head((key, value))
-		self.cache[key] = self.dll.head
-		self.size += 1
+	def set(self, key, value):              # Takes in key and value to add/set node
+		if key in self.cache:               # If key is currently in the cache
+			node = self.cache[key]          # Instant a node in for the node in the cache
+			node.value = (key, value)       # Set the value of that node to they passed in key and value
+			# print(node.value)               # Print value of node ('item2', 'z')
+			self.dll.move_to_front(node)    # Move the node to the front via dll method
+			return                          # Return everything done in if block
+		if self.size == self.limit:         # If the size of the cache == the cache size limit
+			# print(self.cache[self.dll.tail.value[0]])   # Prints the node to be deleted (See line 22
+			del self.cache[self.dll.tail.value[0]]  # Delete the node from the cache
+			self.dll.remove_from_tail()             # Remove said node from the tail via dll method
+			self.size -= 1                          # Update size of cache (Must be done manually)
+		# print((key, value))                         # Print (key, value) to be added to head ('item1', 'a')
+		self.dll.add_to_head((key, value))          # Add via dll the (key, value) to the head
+		print(self.cache)                           # Prints out cache to monitor during testing
+		self.cache[key] = self.dll.head             # Set current cache key to node at head
+		print(self.dll.head.value)                  # Prints out new value of head from DLL
+		self.size += 1                              # Update size of cache (Must be done manually)
 
 """
 Retrieves the value associated with the given key. Also
