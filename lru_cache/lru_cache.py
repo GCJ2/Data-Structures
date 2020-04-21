@@ -1,20 +1,41 @@
-from doubly_linked_list import DoublyLinkedList
+from doubly_linked_list import DoublyLinkedList, ListNode
 
 
 class LRUCache:
-    """
-    Our LRUCache class keeps track of the max number of nodes it
-    can hold, the current number of nodes it is holding, a doubly-
-    linked list that holds the key-value entries in the correct
-    order, as well as a storage dict that provides fast access
-    to every node stored in the cache.
-    """
+	"""
+	Our LRUCache class keeps track of the max number of nodes it
+	can hold, the current number of nodes it is holding, a doubly-
+	linked list that holds the key-value entries in the correct
+	order, as well as a storage dict that provides fast access
+	to every node stored in the cache.
+	"""
 
-    def __init__(self, limit=10):
-        self.limit = limit
-        self.size = 0
-        self.cache = {}
-        self.dll = DoublyLinkedList()
+	def __init__(self, limit=10):
+		self.limit = limit
+		self.size = 0
+		self.cache = {}
+		self.dll = DoublyLinkedList()
+
+	def get(self, key):
+		if key in self.cache:
+			node = self.cache[key]
+			self.dll.move_to_front(node)
+			return self.cache[key].value
+
+	def set(self, key, value):
+		if key in self.cache:
+			node = self.cache[key]
+			self.dll.move_to_front(node)
+			node.value = value
+			return
+		if self.size == self.limit:
+			self.cache.pop(self.dll.tail.value[0])
+			self.dll.remove_from_tail()
+			self.size -= 1
+		self.dll.add_to_head(value)
+		self.cache[key] = self.dll.head
+		self.size += 1
+		return
 
 
 """
@@ -25,20 +46,9 @@ Returns the value associated with the key or None if the
 key-value pair doesn't exist in the cache.
 """
 
-
-def get(self, key):
-    if key in self.cache:
-        self.dll(key)
-        return self.cache[key]
-    if len(self.cache) is self.cache.limit:
-        node = self.cache[key]
-        self.dll.move_to_end(node)
-        del self.cache[node.key]
-
-
 '''
 Get key
-Move current node to end
+Move current node to head
 Return the value of the node
 '''
 
@@ -56,7 +66,3 @@ the newly-specified value.
 '''
 
 '''
-
-
-def set(self, key, value):
-    pass
