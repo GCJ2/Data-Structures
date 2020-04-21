@@ -19,24 +19,27 @@ class LRUCache:
 	def get(self, key):
 		if key in self.cache:
 			node = self.cache[key]
+			# print(node)
+			print(node.value)
+			print(node.value[0])
+			print(node.value[1])
 			self.dll.move_to_front(node)
-			return self.cache[key].value
+			return node.value[1]
 
 	def set(self, key, value):
 		if key in self.cache:
 			node = self.cache[key]
+			node.value = (key, value)
+			print(node.value)
 			self.dll.move_to_front(node)
-			node.value = value
 			return
 		if self.size == self.limit:
-			self.cache.pop(self.dll.tail.value[0])
+			del self.cache[self.dll.tail.value[0]]
 			self.dll.remove_from_tail()
 			self.size -= 1
-		self.dll.add_to_head(value)
+		self.dll.add_to_head((key, value))
 		self.cache[key] = self.dll.head
 		self.size += 1
-		return
-
 
 """
 Retrieves the value associated with the given key. Also
