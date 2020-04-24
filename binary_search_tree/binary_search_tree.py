@@ -73,32 +73,63 @@ class BinarySearchTree:
 	# Print all the values in order from low to high
 	# Hint:  Use a recursive, depth first traversal
 	def in_order_print(self, node):
+		if self.left:
+			self.left.in_order_print(node)
+		if self.value:
+			print(self.value)
+		if self.right:
+			self.right.in_order_print(node)
+
+	# Print the value of every node, starting with the given node,
+	# in an iterative breadth first traversal
+	def bft_print(self, node):
+		queue = Queue()
+		queue.enqueue(node)
 		if node:
-			self.in_order_print(node.left)
-			print(node)
-			self.in_order_print(node.right)
+			while queue.len() > 0:
+				current_node = queue.dequeue()
+				print(current_node.value)
+				if current_node.left:
+					queue.enqueue(current_node.left)
+				if current_node.right:
+					queue.enqueue(current_node.right)
 
-
-# Print the value of every node, starting with the given node,
-# in an iterative breadth first traversal
-def bft_print(self, node):
-	pass
-
-
-# Print the value of every node, starting with the given node,
-# in an iterative depth first traversal
-def dft_print(self, node):
-	pass
-
+	# Print the value of every node, starting with the given node,
+	# in an iterative depth first traversal
+	def dft_print(self, node):
+		if node:
+			print(node.value)
+			self.dft_print(node.left)
+			self.dft_print(node.right)
+		# stack = Stack()
+		# if node:
+		# 	current_node = node
+		# 	while current_node:
+		# 		if current_node:
+		# 			stack.push(current_node)
+		# 			print(current_node.value)
+		# 			current_node = current_node.left
+		# 		else:
+		# 			current_node = stack.pop()
+		# 			current_node = current_node.right
+		# stack = Stack()
+		# stack.push(node)
+		# while stack.len() > 0:
+		# 	current_node = stack.pop()
+		# 	print(current_node.value)
+		# 	if current_node.left:
+		# 		stack.push(current_node.left)
+		# 	if current_node.right:
+		# 		stack.push(current_node.right)
 
 # STRETCH Goals -------------------------
 # Note: Research may be required
 
-# Print Pre-order recursive DFT
-def pre_order_dft(self, node):
-	pass
-
-
-# Print Post-order recursive DFT
-def post_order_dft(self, node):
-	pass
+# # Print Pre-order recursive DFT
+# def pre_order_dft(self, node):
+# 	pass
+#
+#
+# # Print Post-order recursive DFT
+# def post_order_dft(self, node):
+# 	pass
